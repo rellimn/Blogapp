@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Blogs</title>
+</head>
+<body>
+    <h1>Blogs</h1>
+    <table>
+        <thead>
+        <tr>
+            <th> Titel </th>
+            <th> Ersteller </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(blogs)}">
+            <td colspan="2"> Keine Blogs verfügbar </td>
+        </tr>
+        <tr th:each="blog : ${blogs}">
+            <td><a th:href="@{'/blogs/'+${blog.id}}"><span th:text="${blog.ueberschrift}"> Title </span></a></td>
+            <td><span th:text="${blog.ersteller.name}"> Author </span></td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${artikel.ueberschrift}"></title>
+</head>
+<body>
+<h1 th:text="${artikel.ueberschrift}">Platzhalter-Überschrift</h1>
+<p th:utext="${artikel.text.inhalt}">Platzhalter-Text</p>
+<hr>
+<h1>Kommentare</h1>
+<ol th:each="kommentar: ${artikel.kommentare}">
+  <li>
+    <h3 th:text="${kommentar.text.verfasser.name}"></h3>
+    <p th:text="${kommentar.text.inhalt}">
+  </li>
+</ol>
+</body>
+</html>

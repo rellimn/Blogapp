@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blogs</title>
+</head>
+<body>
+<h1>Artikel</h1>
+<table>
+  <thead>
+  <tr>
+    <th> Titel </th>
+    <th> Datum </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:if="${artikelListe.empty}">
+    <td colspan="2"> Keine Artikel verfügbar </td>
+  </tr>
+  <tr th:each="artikel : ${artikelListe}">
+    <td><a th:href="@{'/artikel/'+${artikel.id}}"><span th:text="${artikel.ueberschrift}"> Titel </span></a></td>
+    <td><span th:text="${#temporals.format(artikel.text.zeitstempel)}"> Datum </span></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
