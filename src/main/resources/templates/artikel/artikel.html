@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title th:text="${artikel.ueberschrift}"></title>
+  <link rel="stylesheet" href="/knopf.css">
 </head>
 <body>
+<h2 th:inline="text">Eingeloggt als <span th:text="${nutzerSession.getName()}">nicht eingeloggt</span>!</h2>
+<form th:action="@{/logout}" method="post">
+  <input type="submit" value="Sign Out"/>
+</form>
 <h1 th:text="${artikel.ueberschrift}">Platzhalter-Überschrift</h1>
 <p th:utext="${artikel.text.inhalt}">Platzhalter-Text</p>
 <hr>
@@ -15,5 +20,7 @@
     <p th:text="${kommentar.text.inhalt}">
   </li>
 </ol>
-</body>
-</html>
+<!-- schwebender Knopf -->
+<a th:href="@{${artikel.id}+'/neuerKommentar'}" class="float">
+  <img src="/icons/plus.svg" alt="Add">
+</a>

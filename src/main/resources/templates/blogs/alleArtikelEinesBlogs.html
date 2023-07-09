@@ -3,9 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Blogs</title>
+  <link rel="stylesheet" href="/knopf.css">
+
 </head>
 <body>
-<h1>Artikel</h1>
+<h2 th:inline="text">Eingeloggt als <span th:text="${nutzerSession.getName()}">nicht eingeloggt</span>!</h2>
+<form th:action="@{/logout}" method="post">
+  <input type="submit" value="Sign Out"/>
+</form>
+<h1 th:text="${blog.ueberschrift}">Blogplatzhalter</h1>
 <table>
   <thead>
   <tr>
@@ -14,14 +20,18 @@
   </tr>
   </thead>
   <tbody>
-  <tr th:if="${artikelListe.empty}">
+  <tr th:if="${blog.artikel.empty}">
     <td colspan="2"> Keine Artikel verfügbar </td>
   </tr>
-  <tr th:each="artikel : ${artikelListe}">
+  <tr th:each="artikel : ${blog.artikel}">
     <td><a th:href="@{'/artikel/'+${artikel.id}}"><span th:text="${artikel.ueberschrift}"> Titel </span></a></td>
     <td><span th:text="${#temporals.format(artikel.text.zeitstempel)}"> Datum </span></td>
   </tr>
   </tbody>
 </table>
+<!-- schwebender Knopf -->
+<a th:href="@{${blog.id}+'/neuerArtikel'}" class="float">
+  <img src="/icons/plus.svg" alt="Add">
+</a>
 </body>
 </html>

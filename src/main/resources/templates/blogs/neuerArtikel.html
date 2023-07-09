@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Neuer Kommentar</title>
+</head>
+<body>
+<form th:action="@{'/blogs/' + ${blogId} + '/neuerArtikel'}" method="post">
+  <label for="ueberschrift">Überschrift</label>
+  <br>
+  <input type="text" id="ueberschrift" name="ueberschrift">
+  <br>
+  <label for="artikelText">Artikel</label>
+  <br>
+  <textarea id="artikelText" name="artikelText"></textarea>
+  <br>
+  <input type="submit" value="Abschicken">
+</form>
+</body>
+</html>

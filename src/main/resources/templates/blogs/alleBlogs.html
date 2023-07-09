@@ -5,6 +5,10 @@
     <title>Blogs</title>
 </head>
 <body>
+    <h2 th:inline="text">Eingeloggt als <span th:text="${nutzerSession.getName()}">nicht eingeloggt</span>!</h2>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
     <h1>Blogs</h1>
     <table>
         <thead>
