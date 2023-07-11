@@ -7,10 +7,7 @@
 
 </head>
 <body>
-<h2 th:inline="text">Eingeloggt als <span th:text="${nutzerSession.getName()}">nicht eingeloggt</span>!</h2>
-<form th:action="@{/logout}" method="post">
-  <input type="submit" value="Sign Out"/>
-</form>
+<div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
 <h1 th:text="${blog.ueberschrift}">Blogplatzhalter</h1>
 <table>
   <thead>
@@ -29,9 +26,8 @@
   </tr>
   </tbody>
 </table>
-<!-- schwebender Knopf -->
-<a th:href="@{${blog.id}+'/neuerArtikel'}" class="float">
-  <img src="/icons/plus.svg" alt="Add">
-</a>
+
+<div th:insert="/fragments/hinzufuegenKnopf :: knopf (href=@{${blog.id}+'/neuerArtikel'})"></div>
+
 </body>
 </html>
