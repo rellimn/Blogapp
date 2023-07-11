@@ -8,6 +8,7 @@ import java.util.Objects;
 
 @Entity
 public class Artikel {
+    //test
     @Id
     @GeneratedValue
     private int id;
@@ -19,11 +20,41 @@ public class Artikel {
     @ManyToOne(fetch = FetchType.LAZY)
     private Blog blog;
 
+    //test
+    @OneToMany(orphanRemoval = true, cascade =  CascadeType.ALL, mappedBy = "id", fetch = FetchType.LAZY)
+    private List<Bewertung> bewertungen;
+
+    public List<Bewertung> getBewertungen() {
+        return bewertungen;
+    }
+
+    public void addBewertungen(Bewertung bewertung) {
+        this.bewertungen.add(bewertung);
+    }
+
+    public boolean keineBewertungVorhanden(){
+        if (this.bewertungen.size() == 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public int durchschnittBewertung(){
+        int ergebnis = 0;
+        for (Bewertung it: this.bewertungen) {
+            ergebnis = ergebnis + it.getSterne();
+        }
+        ergebnis = ergebnis / this.bewertungen.size();
+        return ergebnis;
+    }
+
+
+
     protected Artikel() {
 
     }
 
-    public Artikel(String ueberschrift, Text text) {
+    public Artikel(String ueberschrift, Text text) {   //hier noch bewertungen einfuegen
         this.ueberschrift = ueberschrift;
         this.text = text;
         this.kommentare = new ArrayList<>();
