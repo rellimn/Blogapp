@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="/text.css">
 <head>
-  <meta charset="UTF-8">
-  <title th:text="${artikel.ueberschrift}"></title>
-  <link rel="stylesheet" href="/knopf.css">
+    <meta charset="UTF-8">
+    <title th:text="${artikel.ueberschrift}"></title>
+    <link rel="stylesheet" href="/knopf.css">
 </head>
 <body>
-<h2 th:inline="text">Eingeloggt als <span th:text="${nutzerSession.getName()}">nicht eingeloggt</span>!</h2>
-<form th:action="@{/logout}" method="post">
-  <input type="submit" value="Sign Out"/>
-</form>
+<div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
+
 <h1 th:text="${artikel.ueberschrift}">Platzhalter-Überschrift</h1>
-<p th:utext="${artikel.text.inhalt}">Platzhalter-Text</p>
+<p class="textfeld" th:text="${artikel.text.inhalt}">Platzhalter-Text</p>
 <hr>
 <h1>Kommentare</h1>
-<ol th:each="kommentar: ${artikel.kommentare}">
-  <li>
-    <h3 th:text="${kommentar.text.verfasser.name}"></h3>
-    <p th:text="${kommentar.text.inhalt}">
-  </li>
-</ol>
-<!-- schwebender Knopf -->
-<a th:href="@{${artikel.id}+'/neuerKommentar'}" class="float">
-  <img src="/icons/plus.svg" alt="Add">
-</a>
+<th:block th:each="kommentar: ${artikel.kommentare}">
+    <div>
+        <h3>
+              <span>
+                <span style="float: left" th:text="${kommentar.text.verfasser.name}"></span>
+                <span style="float: right" th:text="${#temporals.format(kommentar.text.zeitstempel)}"></span>
+              </span>
+        </h3>
+        <br>
+        <p class="textfeld" th:text="${kommentar.text.inhalt}">
+    </div>
+</th:block>
+<div th:insert="/fragments/hinzufuegenKnopf :: knopf (href=@{${artikel.id}+'/neuerKommentar'})"></div>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:fragment="headerfiles">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/knopf.css}">
+</head>
+<body>
+<div th:fragment="header (user)">
+  <p th:inline="text">Eingeloggt als <span th:text="${user}">nicht eingeloggt</span>!</p>
+
+  <form class="logout-knopf" th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+  </form>
+</div>
+</body>
+</html>

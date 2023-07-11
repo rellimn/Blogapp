@@ -2,13 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Neuer Kommentar</title>
+  <title>Neuer Blog</title>
+  <link rel="stylesheet" href="/knopf.css">
 </head>
 <body>
-<form th:action="@{'/artikel/' + ${artikelId} + '/neuerKommentar'}" method="post">
-  <label for="kommentarText">Kommentar</label>
+<div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
+
+<form th:action="@{'/blogs/neuerBlog'}" method="post">
+  <label for="titel">Titel</label>
   <br>
-  <textarea id="kommentarText" name="kommentarText"></textarea>
+  <input type="text" id="titel" name="titel">
   <br>
   <input type="submit" value="Abschicken">
 </form>

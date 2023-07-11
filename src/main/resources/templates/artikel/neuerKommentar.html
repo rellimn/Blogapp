@@ -5,6 +5,7 @@
   <title>Neuer Kommentar</title>
 </head>
 <body>
+<div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
   <form th:action="@{'/artikel/' + ${artikelId} + '/neuerKommentar'}" method="post">
     <label for="kommentarText">Kommentar</label>
     <br>

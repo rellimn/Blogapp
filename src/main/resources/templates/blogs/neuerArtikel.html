@@ -2,9 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Neuer Kommentar</title>
+  <title>Neuer Artikel</title>
+  <link rel="stylesheet" href="/knopf.css">
+
 </head>
 <body>
+<div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
+
 <form th:action="@{'/blogs/' + ${blogId} + '/neuerArtikel'}" method="post">
   <label for="ueberschrift">Überschrift</label>
   <br>

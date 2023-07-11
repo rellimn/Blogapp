@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" th:href="@{/knopf.css}">
+</head>
+<body>
+<!-- schwebender Knopf -->
+<div th:fragment="knopf (href)">
+  <a th:href='${href}' class="erstellen-knopf">
+    <img src="/icons/plus.svg" alt="Add">
+  </a>
+</div>
+</body>
+</html>

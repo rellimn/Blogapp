@@ -19,15 +19,28 @@ public class BlogController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String blogsAnzeigen(Model model) {
-
         model.addAttribute("blogs", this.blogRepository.findAll());
         return "blogs/alleBlogs";
     }
+
+    @RequestMapping(value="/neuerBlog", method = RequestMethod.GET)
+    public String blogHinzufuegenForm(Model model) {
+        return "blogs/neuerBlog";
+    }
+
+    @RequestMapping(value="/neuerBlog", method = RequestMethod.POST)
+    public String blogHinzufuegenHandling(@RequestParam String titel, Model model) {
+        NutzerSession nutzerSession = (NutzerSession) model.getAttribute("nutzerSession");
+        Blog blog = new Blog(titel, nutzerSession.getNutzer());
+        this.blogRepository.save(blog);
+        return "redirect:/blogs";
+    }
+
     @RequestMapping(value="/{blogId}", method = RequestMethod.GET)
     public String alleArtikelEinesBlogsAnzeigen(@PathVariable int blogId, Model model) {
         Optional<Blog> blog =  this.blogRepository.findById(blogId);
         if (blog.isEmpty())
-            return "redirect:blogs";
+            return "redirect:/blogs";
         model.addAttribute("blog", blog.get());
         return "blogs/alleArtikelEinesBlogs.html";
     }

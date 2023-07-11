@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Blogs</title>
+    <link rel="stylesheet" href="/knopf.css">
+
 </head>
 <body>
-    <h2 th:inline="text">Eingeloggt als <span th:text="${nutzerSession.getName()}">nicht eingeloggt</span>!</h2>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
+<div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
     <h1>Blogs</h1>
     <table>
         <thead>
@@ -27,5 +26,6 @@
         </tr>
         </tbody>
     </table>
+<div th:insert="/fragments/hinzufuegenKnopf :: knopf (href='/blogs/neuerBlog')"></div>
 </body>
 </html>
