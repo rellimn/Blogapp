@@ -18,7 +18,7 @@ public class Blog {
     private String ueberschrift;
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "blog")
     private List<Artikel> artikel;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Nutzer ersteller;
 
     protected Blog() {

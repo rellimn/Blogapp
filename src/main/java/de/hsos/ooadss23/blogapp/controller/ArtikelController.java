@@ -5,18 +5,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
+import static java.lang.Math.round;
+
 @Controller
 @RequestMapping("/artikel")
 @SessionAttributes("nutzerSession")
 public class ArtikelController {
-    ArtikelRepository artikelRepository;
+    private final BewertungRepository bewertungRepository;
+    private final ArtikelRepository artikelRepository;
 
-    ArtikelController(ArtikelRepository artikelRepository) {
+    ArtikelController(ArtikelRepository artikelRepository, BewertungRepository bewertungRepository) {
         this.artikelRepository = artikelRepository;
+        this.bewertungRepository = bewertungRepository;
     }
     @RequestMapping(value="/{artikelId}", method = RequestMethod.GET)
     public String artikelAnzeigen(@PathVariable int artikelId, Model model) {
+        NutzerSession nutzerSession = (NutzerSession) model.getAttribute("nutzerSession");
+        int nutzerId = nutzerSession.getId();
+
         model.addAttribute("artikel", this.artikelRepository.findById(artikelId).orElseThrow());
+        Optional<Bewertung> nutzerBewertung = this.bewertungRepository.findByArtikelIdAndVerfasserId(artikelId, nutzerId);
+        int nutzerSterne = 0;
+        if (nutzerBewertung.isPresent())
+            nutzerSterne = nutzerBewertung.get().getSterne();
+        model.addAttribute("nutzerSterne", nutzerSterne);
+        model.addAttribute("sterneSchnitt", round(this.artikelRepository.sterneAvgById(artikelId).orElse(0f)));
         return "artikel/artikel";
     }
 
@@ -48,15 +63,17 @@ public class ArtikelController {
     @RequestMapping(value="/{artikelId}/neueBewertung", method = RequestMethod.POST)
     public String bewertungHinzufuegenHandling(@PathVariable int artikelId, @RequestParam int sterne, Model model) {
         NutzerSession nutzerSession = (NutzerSession) model.getAttribute("nutzerSession");
-        // NullPointerException kann nicht auftreten, da RequireLoginInterceptor sicherstellt, dass eine nutzerSession vorhanden ist
-
         Artikel artikel = this.artikelRepository.findById(artikelId).orElseThrow();
-        Bewertung bewertung = new Bewertung(sterne,nutzerSession.getNutzer(),artikel);
-        artikel.addBewertungen(bewertung);
-        this.artikelRepository.save(artikel);
-
-
-        //hier fehlt was
+        // NullPointerException kann nicht auftreten, da RequireLoginInterceptor sicherstellt, dass eine nutzerSession vorhanden ist
+        Optional<Bewertung> aktuelleBewertung = this.bewertungRepository.findByArtikelIdAndVerfasserId(artikelId, nutzerSession.getId());
+        Bewertung zuSpeichern;
+        if (aktuelleBewertung.isPresent()) {
+            zuSpeichern = aktuelleBewertung.get();
+            zuSpeichern.setSterne(sterne);
+        } else {
+            zuSpeichern = new Bewertung(sterne, nutzerSession.getNutzer() ,artikel);
+        }
+        this.bewertungRepository.save(zuSpeichern);
         return "redirect:/artikel/" + artikelId;
     }
 

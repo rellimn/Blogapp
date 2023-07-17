@@ -13,25 +13,12 @@
 <p class="textfeld" th:text="${artikel.text.inhalt}">Platzhalter-Text</p>
 <hr>
 
-<h1>Produktbewertung</h1>
+<h2>Produktbewertung</h2>
 <form th:action="@{'/artikel/' + ${artikelId} + '/neueBewertung'}" method="post" th:each="i: ${#numbers.sequence(1, 5)}" style="display: inline; width:100%">
-    <button type="submit" name="sterne" th:value="${i}" style="background: url('/icons/star.svg'); border: none; width: 40px; height: 40px"></button>
+    <button type="submit" name="sterne" th:value="${i}" th:style="'background: url(' + (${i <= nutzerSterne}? '/icons/star_filled.svg': '/icons/star.svg') + '); border: none; width: 40px; height: 40px'"></button>
 </form>
 
-<th:block th:each="bewertung: ${artikel.bewertungen}">
-    <div>
-        <h3>
-              <span>
-                <span style="float: left" th:text="${bewertung.sterne}"></span>
-              </span>
-        </h3>
-        <br>
-
-    </div>
-</th:block>
-
-
-</form>
+<h2 th:text="${sterneSchnitt}"></h2>
 
 <h2>Kommentare</h2>
 <th:block th:each="kommentar: ${artikel.kommentare}">
