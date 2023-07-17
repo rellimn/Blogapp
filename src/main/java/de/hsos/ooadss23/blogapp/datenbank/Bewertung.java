@@ -35,6 +35,10 @@ public class Bewertung {
         return sterne;
     }
 
+    public void setSterne(int sterne) {
+        this.sterne = sterne;
+    }
+
 
 
 }

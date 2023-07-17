@@ -1,6 +1,7 @@
 package de.hsos.ooadss23.blogapp.datenbank;
 
 import jakarta.persistence.*;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,6 @@ public class Artikel {
     private List<Kommentar> kommentare;
     @ManyToOne(fetch = FetchType.LAZY)
     private Blog blog;
-
     //test
     @OneToMany(orphanRemoval = true, cascade =  CascadeType.ALL, mappedBy = "artikel", fetch = FetchType.LAZY)
     private List<Bewertung> bewertungen;

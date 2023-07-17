@@ -27,7 +27,7 @@
   </tbody>
 </table>
 
-<div th:insert="/fragments/hinzufuegenKnopf :: knopf (href=@{${blog.id}+'/neuerArtikel'})"></div>
+<div th:if="${nutzerSession.getNutzer()} == ${blog.ersteller}" th:insert="/fragments/hinzufuegenKnopf :: knopf (href=@{${blog.id}+'/neuerArtikel'})"></div>
 
 </body>
 </html>
