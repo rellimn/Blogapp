@@ -21,7 +21,7 @@ public class Artikel {
     private Blog blog;
 
     //test
-    @OneToMany(orphanRemoval = true, cascade =  CascadeType.ALL, mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, cascade =  CascadeType.ALL, mappedBy = "artikel", fetch = FetchType.LAZY)
     private List<Bewertung> bewertungen;
 
     public List<Bewertung> getBewertungen() {
