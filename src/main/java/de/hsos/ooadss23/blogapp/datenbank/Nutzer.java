@@ -18,12 +18,25 @@ public class Nutzer implements Serializable {
     @OneToMany(orphanRemoval = true, cascade =  CascadeType.ALL, mappedBy = "verfasser", fetch = FetchType.LAZY)
     private List<Text> texte;
 
+    @OneToMany(orphanRemoval = true, cascade =  CascadeType.ALL, mappedBy = "verfasser", fetch = FetchType.LAZY)
+    private List<Bewertung> bewertungen;
+
+
     protected Nutzer() {
 
     }
 
     public Nutzer(String name) {
         this.name = name;
+    }
+
+
+    public List<Bewertung> getBewertungen() {
+        return bewertungen;
+    }
+
+    public void setBewertungen(List<Bewertung> bewertungen) {
+        this.bewertungen = bewertungen;
     }
 
     public int getId() {

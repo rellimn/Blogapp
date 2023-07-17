@@ -2,14 +2,17 @@ package de.hsos.ooadss23.blogapp.datenbank;
 
 import jakarta.persistence.*;
 
-
+@Table(
+        uniqueConstraints=
+        @UniqueConstraint(columnNames={"verfasser_id", "artikel_id"})
+)
 @Entity
 public class Bewertung {
     @Id
     @GeneratedValue
     private int id;
 
-    @Lob
+
     @Column
     private int sterne;
 
