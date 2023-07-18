@@ -17,8 +17,14 @@ public class LoginController {
     public LoginController(NutzerRepository nutzerRepository) {
         this.nutzerRepository = nutzerRepository;
     }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String haupt() {
+        return "redirect:login";
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Model model) {
+    public String login() {
         return "login";
     }
 
