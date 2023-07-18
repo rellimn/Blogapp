@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.Optional;
 
 @Controller
@@ -19,7 +20,7 @@ public class BlogController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String blogsAnzeigen(Model model) {
-        model.addAttribute("blogs", this.blogRepository.findAll());
+        model.addAttribute("blogs", this.blogRepository.findAllByOrderByZeitstempelDesc());
         return "blogs/alleBlogs";
     }
 
@@ -41,6 +42,8 @@ public class BlogController {
         Optional<Blog> blog =  this.blogRepository.findById(blogId);
         if (blog.isEmpty())
             return "redirect:/blogs";
+        // Artikel absteigend nach Zeitstempel sortieren, sodass neue Artikel zuerst angezeigt werden
+        blog.get().getArtikel().sort(Comparator.comparing((Artikel artikel) -> artikel.getText().getZeitstempel()).reversed());
         model.addAttribute("blog", blog.get());
         return "blogs/alleArtikelEinesBlogs.html";
     }

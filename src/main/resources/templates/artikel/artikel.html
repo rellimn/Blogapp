@@ -9,16 +9,19 @@
 <body>
 <div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
 
-<h1 th:text="${artikel.ueberschrift}">Platzhalter-Überschrift</h1>
+<h2 th:text="${artikel.ueberschrift}">Platzhalter-Überschrift</h2>
+<b th:text="${#temporals.format(artikel.text.zeitstempel)}"></b>
 <p class="textfeld" th:text="${artikel.text.inhalt}">Platzhalter-Text</p>
+
 <hr>
 
-<h2>Produktbewertung</h2>
-<form th:action="@{'/artikel/' + ${artikelId} + '/neueBewertung'}" method="post" th:each="i: ${#numbers.sequence(1, 5)}" style="display: inline; width:100%">
-    <button type="submit" name="sterne" th:value="${i}" th:style="'background: url(' + (${i <= nutzerSterne}? '/icons/star_filled.svg': '/icons/star.svg') + '); border: none; width: 40px; height: 40px'"></button>
-</form>
-
-<h2 th:text="${sterneSchnitt}"></h2>
+<h2>Bewertung</h2>
+<div style="display: flex; width:100%">
+    <form th:action="@{'/artikel/' + ${artikelId} + '/neueBewertung'}" method="post" th:each="i: ${#numbers.sequence(1, 5)}" >
+        <button type="submit" name="sterne" th:value="${i}" th:style="'background: url(' + (${i <= nutzerSterne}? '/icons/star_filled.svg': '/icons/star.svg') + '); border: none; width: 40px; height: 40px; margin-left: auto'"></button>
+    </form>
+    <h2 th:text="'⌀: ' + ${#numbers.formatDecimal(sterneSchnitt, 1, 2)} + '★'" style="margin: 5px;"></h2>
+</div>
 
 <h2>Kommentare</h2>
 <th:block th:each="kommentar: ${artikel.kommentare}">

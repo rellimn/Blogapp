@@ -31,7 +31,7 @@ public class ArtikelController {
         if (nutzerBewertung.isPresent())
             nutzerSterne = nutzerBewertung.get().getSterne();
         model.addAttribute("nutzerSterne", nutzerSterne);
-        model.addAttribute("sterneSchnitt", round(this.artikelRepository.sterneAvgById(artikelId).orElse(0f)));
+        model.addAttribute("sterneSchnitt", this.artikelRepository.sterneAvgById(artikelId).orElse(0f));
         return "artikel/artikel";
     }
 

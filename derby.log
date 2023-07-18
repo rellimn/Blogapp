@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Tue Jul 18 14:16:50 CEST 2023:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-0189-68ee-8aee-000003183438 
+Tue Jul 18 15:51:00 CEST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-0189-6944-be8c-0000030ed380 
 on database directory C:\Users\roman\IdeaProjects\Blogapp\datenbank2 with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@1d44bcfa 
 Loaded from file:/C:/Users/roman/.gradle/caches/modules-2/files-2.1/org.apache.derby/derby/10.16.1.1/f9ca2054b3e33ec3f3f19df4a7490352d82de54a/derby-10.16.1.1.jar
 java.vendor=Eclipse Adoptium
@@ -10,10 +10,4 @@ os.name=Windows 10
 os.arch=amd64
 os.version=10.0
 derby.system.home=null
-------------  Begin Error Message -------------
-
-System may be in a inconsistent state, missing file C:\Users\roman\IdeaProjects\Blogapp\datenbank2\log\log35.dat
-------------  End Error Message -------------
-
-Deleting old Logfile C:\Users\roman\IdeaProjects\Blogapp\datenbank2\log\log1.dat
 Database Class Loader started - derby.database.classpath=''
