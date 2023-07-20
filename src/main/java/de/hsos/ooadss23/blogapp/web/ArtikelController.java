@@ -3,6 +3,7 @@ package de.hsos.ooadss23.blogapp.web;
 import de.hsos.ooadss23.blogapp.datenmodell.*;
 import de.hsos.ooadss23.blogapp.repository.ArtikelRepository;
 import de.hsos.ooadss23.blogapp.repository.BewertungRepository;
+import de.hsos.ooadss23.blogapp.util.NutzerSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,19 +39,20 @@ public class ArtikelController {
      * Zugriff unter /artikel/{artikelId}.
      * @param artikelId ID eines Artikels als URL-Pfadvariable
      * @param model Spring MVC-Model, automatisch von Spring übergeben
-     * @return String-Darstellung der Artikel-HTML-Seite
+     * @return String-Darstellung der Artikel-HTML-Seite, oder Redirect im Fehlerfall
      */
     @RequestMapping(value="/{artikelId}", method = RequestMethod.GET)
     public String artikelAnzeigen(@PathVariable int artikelId, Model model) {
         Optional<Artikel> artikel = this.artikelRepository.findById(artikelId);
         if (artikel.isEmpty())
-            return "redirect:/artikel";
+            return "redirect:/";
 
         NutzerSession nutzerSession = (NutzerSession) model.getAttribute("nutzerSession");
         int nutzerId = nutzerSession.getId();
 
         model.addAttribute("artikel", artikel.get());
         Optional<Bewertung> nutzerBewertung = this.bewertungRepository.findByArtikelIdAndVerfasserId(artikelId, nutzerId);
+        // Keine abgegebene Bewertung entspricht null Sternen
         int nutzerSterne = 0;
         if (nutzerBewertung.isPresent())
             nutzerSterne = nutzerBewertung.get().getSterne();
@@ -78,19 +80,20 @@ public class ArtikelController {
      * @param artikelId ID eines Artikels als URL-Pfadvariable
      * @param kommentarText Text des zu erstellenden Kommentars als POST-Parameter, darf nicht leer sein
      * @param model Spring MVC-Model, automatisch von Spring übergeben
-     * @return String-Darstellung der "neuer Kommentar"-HTML-Seite
+     * @return String-Darstellung eines Redirect auf die entsprechende Artikelseite, oder "neuer Kommentar"-Seite im Fehlerfall
      */
     @RequestMapping(value="/{artikelId}/neuerKommentar", method = RequestMethod.POST)
     public String kommentarHinzufuegenHandling(@PathVariable int artikelId, @RequestParam String kommentarText, Model model) {
-        if (kommentarText.strip().equals(""))
-            throw new IllegalArgumentException("Kommentartext darf nicht leer sein");
+        Optional<Artikel> artikel = this.artikelRepository.findById(artikelId);
+        if (artikel.isEmpty() || kommentarText.isBlank())
+            return String.format("redirect:/artikel/%d/neuerKommentar", artikelId);
 
         NutzerSession nutzerSession = (NutzerSession) model.getAttribute("nutzerSession");
         Text text = new Text(kommentarText, nutzerSession.getNutzer());
         Kommentar kommentar = new Kommentar(text);
-        Artikel artikel = this.artikelRepository.findById(artikelId).orElseThrow();
-        artikel.addKommentar(kommentar);
-        this.artikelRepository.save(artikel);
+
+        artikel.get().addKommentar(kommentar);
+        this.artikelRepository.save(artikel.get());
         return "redirect:/artikel/" + artikelId;
     }
 
@@ -104,18 +107,20 @@ public class ArtikelController {
      */
     @RequestMapping(value="/{artikelId}/neueBewertung", method = RequestMethod.POST)
     public String bewertungHinzufuegenHandling(@PathVariable int artikelId, @RequestParam int sterne, Model model) {
-        if (sterne < 1 || sterne > 5)
-            throw new IllegalArgumentException("Sterne müssen zwischen 1 und 5 liegen");
+        Optional<Artikel> artikel = this.artikelRepository.findById(artikelId);
+        if (sterne < 1 || sterne > 5 || artikel.isEmpty())
+            return "redirect:/artikel/" + artikelId;
 
         NutzerSession nutzerSession = (NutzerSession) model.getAttribute("nutzerSession");
-        Artikel artikel = this.artikelRepository.findById(artikelId).orElseThrow();
+
         Optional<Bewertung> aktuelleBewertung = this.bewertungRepository.findByArtikelIdAndVerfasserId(artikelId, nutzerSession.getId());
+        // Wenn Nutzer schon eine Bewertung abgegeben hat, wird die bestehende Bewertung geändert, sonst wird eine neue angelegt
         Bewertung zuSpeichern;
         if (aktuelleBewertung.isPresent()) {
             zuSpeichern = aktuelleBewertung.get();
             zuSpeichern.setSterne(sterne);
         } else {
-            zuSpeichern = new Bewertung(sterne, nutzerSession.getNutzer() ,artikel);
+            zuSpeichern = new Bewertung(sterne, nutzerSession.getNutzer(), artikel.get());
         }
         this.bewertungRepository.save(zuSpeichern);
         return "redirect:/artikel/" + artikelId;

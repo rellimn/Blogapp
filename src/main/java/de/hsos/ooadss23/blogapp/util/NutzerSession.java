@@ -1,4 +1,4 @@
-package de.hsos.ooadss23.blogapp.web;
+package de.hsos.ooadss23.blogapp.util;
 
 import de.hsos.ooadss23.blogapp.datenmodell.Nutzer;
 

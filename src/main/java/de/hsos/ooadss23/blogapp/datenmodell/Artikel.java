@@ -27,32 +27,6 @@ public class Artikel {
     @OneToMany(orphanRemoval = true, cascade =  CascadeType.ALL, mappedBy = "artikel", fetch = FetchType.LAZY)
     private List<Bewertung> bewertungen;
 
-    public List<Bewertung> getBewertungen() {
-        return bewertungen;
-    }
-
-    public void addBewertungen(Bewertung bewertung) {
-        this.bewertungen.add(bewertung);
-    }
-
-    public boolean keineBewertungVorhanden(){
-        if (this.bewertungen.size() == 0) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-    public int durchschnittBewertung(){
-        int ergebnis = 0;
-        for (Bewertung it: this.bewertungen) {
-            ergebnis = ergebnis + it.getSterne();
-        }
-        ergebnis = ergebnis / this.bewertungen.size();
-        return ergebnis;
-    }
-
-
-
     protected Artikel() {
 
     }
@@ -61,6 +35,18 @@ public class Artikel {
         this.ueberschrift = ueberschrift;
         this.text = text;
         this.kommentare = new ArrayList<>();
+    }
+
+    public List<Bewertung> getBewertungen() {
+        return bewertungen;
+    }
+
+    public void setBewertungen(List<Bewertung> bewertungen) {
+        this.bewertungen = bewertungen;
+    }
+
+    public void addBewertung(Bewertung bewertung) {
+        this.bewertungen.add(bewertung);
     }
 
     public int getId() {

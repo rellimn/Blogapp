@@ -12,7 +12,7 @@ import java.util.List;
 public interface BlogRepository extends CrudRepository<Blog, Integer> {
     /**
      * Findet alle Blogs und gibt diese nach Erstelldatum absteigend sortiert zurück
-     * @return Alle Blogs, absteigend nach Zeitstempel sortiert
+     * @return Liste aller Blogs, absteigend nach Zeitstempel sortiert
      */
     List<Blog> findAllByOrderByZeitstempelDesc();
 }
