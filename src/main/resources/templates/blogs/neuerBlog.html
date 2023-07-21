@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/knopf.css">
 </head>
 <body>
+<!-- Header -->
 <div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
 
 <form th:action="@{'/blogs/neuerBlog'}" method="post">

@@ -12,7 +12,7 @@ import java.util.Objects;
  * @author Roman Wasenmiller
  */
 @Entity
-public class Nutzer implements Serializable {
+public class Nutzer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

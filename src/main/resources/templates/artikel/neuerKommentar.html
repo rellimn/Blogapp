@@ -3,15 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Neuer Kommentar</title>
+  <link rel="stylesheet" href="/knopf.css">
+
 </head>
 <body>
+<!-- Header -->
 <div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
-  <form th:action="@{'/artikel/' + ${artikelId} + '/neuerKommentar'}" method="post">
-    <label for="kommentarText">Kommentar</label>
-    <br>
-    <textarea id="kommentarText" name="kommentarText"></textarea>
-    <br>
-    <input type="submit" value="Abschicken">
-  </form>
+
+<!-- "neuer Kommentar"-Formular -->
+<form th:action="@{'/artikel/' + ${artikelId} + '/neuerKommentar'}" method="post">
+  <label for="kommentarText">Kommentar</label>
+  <br>
+  <textarea id="kommentarText" name="kommentarText"></textarea>
+  <br>
+  <input type="submit" value="Abschicken">
+</form>
+
 </body>
 </html>

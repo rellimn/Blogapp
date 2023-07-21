@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/knopf.css}">
 </head>
 <body>
+<!-- Nutzername und Logout-Knopf am oberen Rand-->
 <div th:fragment="header (user)">
   <p th:inline="text">Eingeloggt als <span th:text="${user}">nicht eingeloggt</span></p>
 

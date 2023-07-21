@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" href="/text.css">
 <head>
     <meta charset="UTF-8">
     <title th:text="${artikel.ueberschrift}"></title>
     <link rel="stylesheet" href="/knopf.css">
+    <link rel="stylesheet" href="/text.css">
 </head>
 <body>
+<!-- Header -->
 <div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
 
 <h2 th:text="${artikel.ueberschrift}">Platzhalter-Überschrift</h2>
@@ -16,9 +17,10 @@
 <hr>
 
 <h2>Bewertung</h2>
+<!-- 5 sternförmige Knöpfe zum Bewerten eines Artikels -->
 <div style="display: flex; width:100%">
     <form th:action="@{'/artikel/' + ${artikelId} + '/neueBewertung'}" method="post" th:each="i: ${#numbers.sequence(1, 5)}" >
-        <button type="submit" name="sterne" th:value="${i}" th:style="'background: url(' + (${i <= nutzerSterne}? '/icons/star_filled.svg': '/icons/star.svg') + '); border: none; width: 40px; height: 40px; margin-left: auto'"></button>
+        <button type="submit" name="sterne" th:value="${i}" th:style="'background: url(' + (${i <= nutzerSterne}? '/icons/star_filled.svg': '/icons/star.svg') + ');'" class="stern-knopf"></button>
     </form>
     <h2 th:text="'⌀: ' + ${#numbers.formatDecimal(sterneSchnitt, 1, 2)} + '★'" style="margin: 5px;"></h2>
 </div>
@@ -36,6 +38,8 @@
         <p class="textfeld" th:text="${kommentar.text.inhalt}">
     </div>
 </th:block>
+
+<!-- "neuer Kommentar"-Knopf -->
 <div th:insert="/fragments/hinzufuegenKnopf :: knopf (href=@{${artikel.id}+'/neuerKommentar'})"></div>
 
 </body>

@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <title>Neuer Artikel</title>
   <link rel="stylesheet" href="/knopf.css">
-
 </head>
 <body>
+<!-- Header -->
 <div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
 
 <form th:action="@{'/blogs/' + ${blogId} + '/neuerArtikel'}" method="post">

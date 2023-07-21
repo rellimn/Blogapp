@@ -7,8 +7,11 @@
 
 </head>
 <body>
+<!-- Header -->
 <div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
+
 <h1 th:text="${blog.ueberschrift}">Blogplatzhalter</h1>
+<!-- Blogartikel-Übersichtstabelle -->
 <table>
   <thead>
   <tr>
@@ -27,6 +30,7 @@
   </tbody>
 </table>
 
+<!-- "neuer Artikel"-Knopf -->
 <div th:if="${nutzerSession.getNutzer()} == ${blog.ersteller}" th:insert="/fragments/hinzufuegenKnopf :: knopf (href=@{${blog.id}+'/neuerArtikel'})"></div>
 
 </body>

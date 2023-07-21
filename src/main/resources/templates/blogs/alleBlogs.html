@@ -4,28 +4,32 @@
     <meta charset="UTF-8">
     <title>Blogs</title>
     <link rel="stylesheet" href="/knopf.css">
-
 </head>
 <body>
+<!-- Header -->
 <div th:insert='/fragments/header :: header (user=${nutzerSession.getName()})'></div>
-    <h1>Blogübersicht</h1>
-    <table>
-        <thead>
-        <tr>
-            <th> Titel </th>
-            <th> Ersteller </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${#lists.isEmpty(blogs)}">
-            <td colspan="2"> Keine Blogs verfügbar </td>
-        </tr>
-        <tr th:each="blog : ${blogs}">
-            <td><a th:href="@{'/blogs/'+${blog.id}}"><span th:text="${blog.ueberschrift}"> Title </span></a></td>
-            <td><span th:text="${blog.ersteller.name}"> Author </span></td>
-        </tr>
-        </tbody>
-    </table>
+
+<h1>Blogübersicht</h1>
+<!-- Blog-Übersichtstabelle-->
+<table>
+    <thead>
+    <tr>
+        <th> Titel </th>
+        <th> Ersteller </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(blogs)}">
+        <td colspan="2"> Keine Blogs verfügbar </td>
+    </tr>
+    <tr th:each="blog : ${blogs}">
+        <td><a th:href="@{'/blogs/'+${blog.id}}"><span th:text="${blog.ueberschrift}"> Title </span></a></td>
+        <td><span th:text="${blog.ersteller.name}"> Author </span></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- "neuer Blog"-Knopf -->
 <div th:insert="/fragments/hinzufuegenKnopf :: knopf (href='/blogs/neuerBlog')"></div>
 </body>
 </html>
