@@ -44,8 +44,9 @@ public class ArtikelController {
     @RequestMapping(value="/{artikelId}", method = RequestMethod.GET)
     public String artikelAnzeigen(@PathVariable int artikelId, Model model) {
         Optional<Artikel> artikel = this.artikelRepository.findById(artikelId);
-        if (artikel.isEmpty())
+        if (artikel.isEmpty()) {
             return "redirect:/";
+        }
 
         NutzerSession nutzerSession = (NutzerSession) model.getAttribute("nutzerSession");
         int nutzerId = nutzerSession.getId();
@@ -54,8 +55,9 @@ public class ArtikelController {
         Optional<Bewertung> nutzerBewertung = this.bewertungRepository.findByArtikelIdAndVerfasserId(artikelId, nutzerId);
         // Keine abgegebene Bewertung entspricht null Sternen
         int nutzerSterne = 0;
-        if (nutzerBewertung.isPresent())
+        if (nutzerBewertung.isPresent()) {
             nutzerSterne = nutzerBewertung.get().getSterne();
+        }
         model.addAttribute("nutzerSterne", nutzerSterne);
         model.addAttribute("sterneSchnitt", this.artikelRepository.sterneAvgById(artikelId).orElse(0f));
         return "artikel/artikel";
@@ -85,8 +87,9 @@ public class ArtikelController {
     @RequestMapping(value="/{artikelId}/neuerKommentar", method = RequestMethod.POST)
     public String kommentarHinzufuegenHandling(@PathVariable int artikelId, @RequestParam String kommentarText, Model model) {
         Optional<Artikel> artikel = this.artikelRepository.findById(artikelId);
-        if (artikel.isEmpty() || kommentarText.isBlank())
+        if (artikel.isEmpty() || kommentarText.isBlank()) {
             return String.format("redirect:/artikel/%d/neuerKommentar", artikelId);
+        }
 
         NutzerSession nutzerSession = (NutzerSession) model.getAttribute("nutzerSession");
         Text text = new Text(kommentarText, nutzerSession.getNutzer());
@@ -108,8 +111,9 @@ public class ArtikelController {
     @RequestMapping(value="/{artikelId}/neueBewertung", method = RequestMethod.POST)
     public String bewertungHinzufuegenHandling(@PathVariable int artikelId, @RequestParam int sterne, Model model) {
         Optional<Artikel> artikel = this.artikelRepository.findById(artikelId);
-        if (sterne < 1 || sterne > 5 || artikel.isEmpty())
+        if (sterne < 1 || sterne > 5 || artikel.isEmpty()) {
             return "redirect:/artikel/" + artikelId;
+        }
 
         NutzerSession nutzerSession = (NutzerSession) model.getAttribute("nutzerSession");
 

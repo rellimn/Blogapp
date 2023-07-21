@@ -62,15 +62,17 @@ public class LoginController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String nutzerAnmelden(@RequestParam String name, Model model) {
-        if (model.getAttribute("nutzerSession") != null)
+        if (model.getAttribute("nutzerSession") != null) {
             return "redirect:/";
-        if (name.isBlank())
+        }
+        if (name.isBlank()) {
             return "redirect:/login";
+        }
         Nutzer nutzer;
         Optional<Nutzer> moeglicherNutzer = this.nutzerRepository.findByName(name);
-        if (moeglicherNutzer.isPresent())
+        if (moeglicherNutzer.isPresent()) {
             nutzer = moeglicherNutzer.get();
-        else {
+        } else {
             nutzer = new Nutzer(name);
             this.nutzerRepository.save(nutzer);
         }

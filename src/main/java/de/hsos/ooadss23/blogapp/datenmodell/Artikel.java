@@ -109,4 +109,16 @@ public class Artikel {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Artikel{" +
+                "id=" + id +
+                ", ueberschrift='" + ueberschrift + '\'' +
+                ", text=" + text +
+                ", kommentare=" + kommentare +
+                ", blog=" + blog +
+                ", bewertungen=" + bewertungen +
+                '}';
+    }
 }

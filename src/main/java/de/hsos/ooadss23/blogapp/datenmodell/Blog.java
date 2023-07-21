@@ -97,4 +97,15 @@ public class Blog {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Blog{" +
+                "id=" + id +
+                ", zeitstempel=" + zeitstempel +
+                ", ueberschrift='" + ueberschrift + '\'' +
+                ", artikel=" + artikel +
+                ", ersteller=" + ersteller +
+                '}';
+    }
 }

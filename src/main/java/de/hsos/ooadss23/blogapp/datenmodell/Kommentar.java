@@ -62,4 +62,13 @@ public class Kommentar {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Kommentar{" +
+                "id=" + id +
+                ", text=" + text +
+                ", artikel=" + artikel +
+                '}';
+    }
 }

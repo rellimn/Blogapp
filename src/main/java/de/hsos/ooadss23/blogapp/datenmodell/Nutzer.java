@@ -106,4 +106,15 @@ public class Nutzer {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Nutzer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", blogs=" + blogs +
+                ", texte=" + texte +
+                ", bewertungen=" + bewertungen +
+                '}';
+    }
 }

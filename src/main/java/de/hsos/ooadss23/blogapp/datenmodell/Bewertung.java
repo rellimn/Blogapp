@@ -2,6 +2,8 @@ package de.hsos.ooadss23.blogapp.datenmodell;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 /**
  * JPA-Entit&auml;t, die eine Artikelbewertung repr&auml;sentiert.
  * Entspricht der Datenbanktabelle "Bewertung".
@@ -63,5 +65,27 @@ public class Bewertung {
 
     public void setArtikel(Artikel artikel) {
         this.artikel = artikel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Bewertung bewertung)) return false;
+        return id == bewertung.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Bewertung{" +
+                "id=" + id +
+                ", sterne=" + sterne +
+                ", verfasser=" + verfasser +
+                ", artikel=" + artikel +
+                '}';
     }
 }

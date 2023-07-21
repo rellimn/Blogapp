@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * JPA-Entit&auml;t, die einen Nutzer repr&auml;sentiert.
@@ -63,5 +64,27 @@ public class Text {
 
     public void setVerfasser(Nutzer verfasser) {
         this.verfasser = verfasser;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Text text)) return false;
+        return id == text.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Text{" +
+                "id=" + id +
+                ", inhalt='" + inhalt + '\'' +
+                ", zeitstempel=" + zeitstempel +
+                ", verfasser=" + verfasser +
+                '}';
     }
 }
