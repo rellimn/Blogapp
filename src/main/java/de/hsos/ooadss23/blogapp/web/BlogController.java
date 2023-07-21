@@ -44,7 +44,6 @@ public class BlogController {
     /**
      * Zeigt ein Formular zum Erstellen eines neuen Blogs an.
      * Zugriff unter /blogs/neuerBlog.
-     * @param model Spring MVC-Model, automatisch von Spring übergeben
      * @return String-Darstellung der "neuer Blog"-HTML-Seite
      */
     @RequestMapping(value="/neuerBlog", method = RequestMethod.GET)
@@ -84,7 +83,10 @@ public class BlogController {
             return "redirect:/";
         }
         // Artikel absteigend nach Zeitstempel sortieren, sodass neue Artikel zuerst angezeigt werden
-        blog.get().getArtikel().sort(Comparator.comparing((Artikel artikel) -> artikel.getText().getZeitstempel()).reversed());
+        blog.get().getArtikel()
+                .sort(Comparator.comparing(
+                        (Artikel artikel) -> artikel.getText().getZeitstempel()).reversed()
+                );
         model.addAttribute("blog", blog.get());
         return "blogs/alleArtikelEinesBlogs.html";
     }
@@ -114,11 +116,15 @@ public class BlogController {
      * @param ueberschrift &uuml;berschrift des zu erstellenden Artikels als POST-Parameter, darf nicht leer sein
      * @param artikelText Text des zu erstellenden Artikels als POST-Parameter, darf nicht leer sein
      * @param model Spring MVC-Model, automatisch von Spring übergeben
-     * @return String-Darstellung eines Redirect auf die entsprechende Blogseite, oder "neuer Artikel"-Seite im Fehlerfall, oder Hauptseite, falls blogId keinem Blog zuzuordnen ist
+     * @return String-Darstellung eines Redirect auf die entsprechende Blogseite, oder "neuer Artikel"-Seite im Fehlerfall,
+     * oder Hauptseite, falls blogId keinem Blog zuzuordnen ist
      * @throws IllegalStateException Falls eingeloggter Nutzer nicht ersteller des Blogs ist
      */
     @RequestMapping(value="/{blogId}/neuerArtikel", method = RequestMethod.POST)
-    public String artikelHinzufuegenHandling(@PathVariable int blogId, @RequestParam String ueberschrift, @RequestParam String artikelText, Model model) {
+    public String artikelHinzufuegenHandling(@PathVariable int blogId,
+                                             @RequestParam String ueberschrift,
+                                             @RequestParam String artikelText,
+                                             Model model) {
         Optional<Blog> blog =  this.blogRepository.findById(blogId);
         if (blog.isEmpty()) {
             return "redirect:/";

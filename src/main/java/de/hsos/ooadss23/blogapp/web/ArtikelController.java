@@ -85,7 +85,9 @@ public class ArtikelController {
      * @return String-Darstellung eines Redirect auf die entsprechende Artikelseite, oder "neuer Kommentar"-Seite im Fehlerfall
      */
     @RequestMapping(value="/{artikelId}/neuerKommentar", method = RequestMethod.POST)
-    public String kommentarHinzufuegenHandling(@PathVariable int artikelId, @RequestParam String kommentarText, Model model) {
+    public String kommentarHinzufuegenHandling(@PathVariable int artikelId,
+                                               @RequestParam String kommentarText,
+                                               Model model) {
         Optional<Artikel> artikel = this.artikelRepository.findById(artikelId);
         if (artikel.isEmpty() || kommentarText.isBlank()) {
             return String.format("redirect:/artikel/%d/neuerKommentar", artikelId);
@@ -117,7 +119,8 @@ public class ArtikelController {
 
         NutzerSession nutzerSession = (NutzerSession) model.getAttribute("nutzerSession");
 
-        Optional<Bewertung> aktuelleBewertung = this.bewertungRepository.findByArtikelIdAndVerfasserId(artikelId, nutzerSession.getId());
+        Optional<Bewertung> aktuelleBewertung = this.bewertungRepository
+                .findByArtikelIdAndVerfasserId(artikelId, nutzerSession.getId());
         // Wenn Nutzer schon eine Bewertung abgegeben hat, wird die bestehende Bewertung geändert, sonst wird eine neue angelegt
         Bewertung zuSpeichern;
         if (aktuelleBewertung.isPresent()) {
